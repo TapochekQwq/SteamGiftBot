@@ -1,20 +1,9 @@
-#    ______                   ______ _____    ___                      
-#   / __/ /____ ___ ___ _    / ___(_) _/ /_  / _ \___ ________ ___ ____
-#  _\ \/ __/ -_) _ `/  ' \  / (_ / / _/ __/ / ___/ _ `/ __(_-</ -_) __/
-# /___/\__/\__/\_,_/_/_/_/  \___/_/_/ \__/ /_/   \_,_/_/ /___/\__/_/   
-#                                                                    
-# Created by: github.com/PalmaLuv
-# Stay tuned for further app updates
-# License : MPL-2.0
-
 import six 
-
 from InquirerPy import prompt
 from prompt_toolkit import document as doc
 from prompt_toolkit.validation import ValidationError, Validator
 
 from main import config
-import keyboard
 import clipboard
 import os
 
@@ -96,12 +85,13 @@ def ask(type, name, msg, choices=[]):
     ]
     if choices:
         questions[0].update({'choices':choices})
+    
+    # Убираем зависимость от keyboard, используем стандартный ввод
     if type == 'input':
-        keyboard.add_hotkey('ctrl+v', lambda: keyboard.write(clipboard.paste()))
         answers = prompt(questions)
-        keyboard.remove_hotkey('ctrl+v')
-    else :
+    else:
         answers = prompt(questions)
+    
     return answers
 
 def askReadConfig(cookie_value, log_info_value):
@@ -118,4 +108,3 @@ def askLog():
     log = ask('confirm', 'logs', 
     'Do you want to leave a log file after each run of the script?')['logs']
     return log
-
