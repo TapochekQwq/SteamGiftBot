@@ -1,20 +1,7 @@
-#    ______                   ______ _____    ___                      
-#   / __/ /____ ___ ___ _    / ___(_) _/ /_  / _ \___ ________ ___ ____
-#  _\ \/ __/ -_) _ `/  ' \  / (_ / / _/ __/ / ___/ _ `/ __(_-</ -_) __/
-# /___/\__/\__/\_,_/_/_/_/  \___/_/_/ \__/ /_/   \_,_/_/ /___/\__/_/   
-#                                                                    
-# Created by: github.com/PalmaLuv
-# Stay tuned for further app updates
-# License : MPL-2.0
-
-# from method.method import SteamGift
 import configparser
 import client as clientLog
 
-# from PyInstaller import (Token, Error, JsonPrint, prompt)
-config      = configparser.ConfigParser()
-
-# Storing parameters.  
+# Сохранение параметров.
 class valProject:
     def __init__(self):
         self._valLogs = False
@@ -35,9 +22,10 @@ class valProject:
     @cookie.setter
     def cookie(self, value):
         self._cookie = value
+
 thisConfig = valProject()
 
-# Creation and processing of previously created parameters or, if not created, their creation 
+# Обработка конфигурации
 def workingWithConfig(): 
     config.read('config.ini')
     if not config['DEFAULT'].get('cookie'): 
@@ -51,7 +39,7 @@ def workingWithConfig():
     if not config['DEFAULT'].get('cookie') or not config['DEFAULT'].get('log_info'):
         clientLog.askReadConfig(thisConfig.cookie, thisConfig.valLogs)
 
-# Editing the script settings *.ini file
+# Редактирование конфигурации
 def editConfig():
     while(True):
         editCfg = startCfg = clientLog.ask('list', 'config_edit', 'Choice of Action :', choices= [
@@ -66,13 +54,13 @@ def editConfig():
         elif editCfg == 'exit' :
             break
 
-# Program launch function
+# Запуск программы
 def run(): 
     from method.method import SteamGift as steamGif 
     for index in range(4): 
         clientLog.log(clientLog.array_logo[index], "green")
     clientLog.log("\nEnjoy using our product!", "white")
-    clientLog.log("Created by: github.com/PalmaLuv | palmaluv.live\nStay tuner for further app updates","red")
+    clientLog.log("Created by: github.com/PalmaLuv | palmaluv.live\nStay tuned for further app updates","red")
     workingWithConfig()
     while(True):
         startCfg = clientLog.ask('list', 'config_start', 'Choice of Action :', choices= [
