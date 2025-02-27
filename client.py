@@ -1,54 +1,130 @@
 import os
-import client as clientLog
+import six
+from InquirerPy import prompt
+from prompt_toolkit import document as doc
+from prompt_toolkit.validation import ValidationError, Validator
+from logs import editFileLog, createFileLog  
 
-# Удалили конфиг и все, что связано с вводом данных.
-def run():
-    from method.method import SteamGift as steamGif
-    for index in range(4):
-        clientLog.log(clientLog.array_logo[index], "green")
-    clientLog.log("\nEnjoy using our product!", "white")
-    clientLog.log("Created by: github.com/PalmaLuv | palmaluv.live\nStay tuned for further app updates", "red")
-    
-    # Заменяем все параметры на значения из переменных окружения.
-    cookie = os.getenv('PHPSESSID_COOKIE', '')  # Получаем cookie из переменной окружения
-    log_info = os.getenv('LOG_INFO', 'False') == 'True'  # Логирование (по умолчанию False, если переменная не установлена)
-    
-    # Логирование
-    clientLog.createdLogs(log_info)
-    
-    pinnedGames = True  # Поставить по умолчанию True для "Should the bot enter pinned games?"
-    giftTYPE = 'All'  # Поставить по умолчанию 'All' для типа подарков
-    minPoin = 60  # Поставить по умолчанию 60 для минимальных баллов
+array_logo = [
+    "    ______                   ______ _____    ___                      ",
+    "   / __/ /____ ___ ___ _    / ___(_) _/ /_  / _ \___ ________ ___ ____",
+    "  _\ \/ __/ -_) _ `/  ' \  / (_ / / _/ __/ / ___/ _ `/ __(_-</ -_) __/",
+    " /___/\__/\__/\_,_/_/_/_/  \___/_/_/ \__/ /_/   \_,_/_/ /___/\__/_/   " 
+]
 
-    # Запуск с заданными параметрами
-    steamGif(cookie, giftTYPE, pinnedGames, minPoin).start()
+# Удалили код с вопросами и логированием, теперь всё идёт через переменные окружения.
 
-if __name__ == '__main__':
-    run()
+class statusLogs:
+    def __init__(self):
+        self._valLogs = False
+        self._valTextConsole = 0
+
+    @property 
+    def valTextConsole(self): 
+        return self._valTextConsole
+
+    @property
+    def valLogs(self):
+        return self._valLogs
+
+    @valTextConsole.setter
+    def valTextConsole(self, value):
+        self._valTextConsole = value
+
+    @valLogs.setter
+    def valLogs(self, value):
+        self._valLogs = value
+
+boolLogs = statusLogs()
+
+def createdLogs(status):
+    if status:
+        createFileLog()
+        boolLogs.valLogs = status
+
+def log(str, color="white"):
+    if boolLogs.valTextConsole < 60: 
+        boolLogs.valTextConsole += 1
+    elif 60 <= boolLogs.valTextConsole: 
+        boolLogs.valTextConsole = 0
+        os.system('cls')
+    if boolLogs.valLogs: 
+        editFileLog(str.replace('\n', ' '))
+    print(str)
+
+class PointValidator(Validator):
+    def validate(self, document: doc.Document):
+        value = document.text
+        try:
+            value = int(value)
+        except Exception:
+            raise Exception('Value should be greater than 0')
+
+        if value <= 0:
+            raise Exception('Value should be greater than 0')
+        return True
 import os
-import client as clientLog
+import six
+from InquirerPy import prompt
+from prompt_toolkit import document as doc
+from prompt_toolkit.validation import ValidationError, Validator
+from logs import editFileLog, createFileLog  
 
-# Удалили конфиг и все, что связано с вводом данных.
-def run():
-        from method.method import SteamGift as steamGif
-        for index in range(4):
-                    clientLog.log(clientLog.array_logo[index], "green")
-                clientLog.log("\nEnjoy using our product!", "white")
-    clientLog.log("Created by: github.com/PalmaLuv | palmaluv.live\nStay tuned for further app updates", "red")
+array_logo = [
+        "    ______                   ______ _____    ___                      ",
+        "   / __/ /____ ___ ___ _    / ___(_) _/ /_  / _ \___ ________ ___ ____",
+        "  _\ \/ __/ -_) _ `/  ' \  / (_ / / _/ __/ / ___/ _ `/ __(_-</ -_) __/",
+        " /___/\__/\__/\_,_/_/_/_/  \___/_/_/ \__/ /_/   \_,_/_/ /___/\__/_/   " 
+]
 
-    # Заменяем все параметры на значения из переменных окружения.
-    cookie = os.getenv('PHPSESSID_COOKIE', '')  # Получаем cookie из переменной окружения
-    log_info = os.getenv('LOG_INFO', 'False') == 'True'  # Логирование (по умолчанию False, если переменная не установлена)
+# Удалили код с вопросами и логированием, теперь всё идёт через переменные окружения.
 
-    # Логирование
-    clientLog.createdLogs(log_info)
+class statusLogs:
+        def __init__(self):
+                    self._valLogs = False
+                    self._valTextConsole = 0
 
-    pinnedGames = True  # Поставить по умолчанию True для "Should the bot enter pinned games?"
-    giftTYPE = 'All'  # Поставить по умолчанию 'All' для типа подарков
-    minPoin = 60  # Поставить по умолчанию 60 для минимальных баллов
+        @property 
+        def valTextConsole(self): 
+            return self._valTextConsole
 
-    # Запуск с заданными параметрами
-    steamGif(cookie, giftTYPE, pinnedGames, minPoin).start()
+    @property
+    def valLogs(self):
+                return self._valLogs
 
-if __name__ == '__main__':
-        run()
+    @valTextConsole.setter
+    def valTextConsole(self, value):
+                self._valTextConsole = value
+
+    @valLogs.setter
+    def valLogs(self, value):
+                self._valLogs = value
+
+boolLogs = statusLogs()
+
+def createdLogs(status):
+        if status:
+                    createFileLog()
+                    boolLogs.valLogs = status
+
+    def log(str, color="white"):
+            if boolLogs.valTextConsole < 60: 
+                boolLogs.valTextConsole += 1
+            elif 60 <= boolLogs.valTextConsole: 
+                boolLogs.valTextConsole = 0
+                        os.system('cls')
+                    if boolLogs.valLogs: 
+                        editFileLog(str.replace('\n', ' '))
+                            print(str)
+
+class PointValidator(Validator):
+        def validate(self, document: doc.Document):
+                    value = document.text
+                    try:
+                                    value = int(value)
+except Exception:
+            raise Exception('Value should be greater than 0')
+
+        if value <= 0:
+                        raise Exception('Value should be greater than 0')
+                    return True
